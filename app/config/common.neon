@@ -1,0 +1,21 @@
+#
+# WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+# https://nette.org/security-warning
+#
+parameters:
+
+services:
+	# Repositories
+	- App\Model\MeterStateRepository
+	- App\Model\ConsumptionRepository
+
+	# Facades
+	- App\Model\MeterStateFacade
+	- App\Model\DataFacade
+
+database:
+	dsn: %db.dsn%
+	user: %db.user%
+	password: %db.pass%
+	options:
+		lazy: yes
