@@ -32,3 +32,8 @@ api:
 		Apitte\Negotiation\DI\NegotiationPlugin:
 			unification: true
 		Apitte\OpenApi\DI\OpenApiPlugin:
+
+services:
+	 decorator.response.cors:
+	 	class: App\Decorator\CorsResponseDecorator
+	 	tags: [apitte.core.decorator: [priority: 60, type: handler.after]]
