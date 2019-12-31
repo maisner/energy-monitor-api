@@ -16,11 +16,9 @@ class AllowOptionsMethodMiddleware implements IMiddleware {
 		callable $next
 	): ResponseInterface {
 		if ($request->getMethod() === 'OPTIONS') {
-			$response->withHeader('Access-Control-Allow-Origin', '*');
-			$response->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS, DELETE');
-			$response->withHeader('Access-Control-Allow-Headers', 'origin, content-type, accept');
-
-			return $response;
+			return $response->withHeader('Access-Control-Allow-Origin', '*')
+				->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS, DELETE')
+				->withHeader('Access-Control-Allow-Headers', 'origin, content-type, accept');
 		}
 
 		return $next($request, $response);
