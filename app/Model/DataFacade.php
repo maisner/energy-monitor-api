@@ -41,6 +41,7 @@ class DataFacade {
 			//			->where('year', 2019)
 			//			->where('month >=', 9)
 			->group('month, year')
+			->order('year ASC, month ASC')
 			->fetchAll();
 
 		$data = [];
