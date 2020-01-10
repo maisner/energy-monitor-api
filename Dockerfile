@@ -1,10 +1,5 @@
 FROM php:7.3-apache
 
-ARG DB_HOST
-ARG DB_NAME
-ARG DB_USER
-ARG DB_PASS
-
 RUN docker-php-ext-install pdo_mysql \
 && a2enmod rewrite
 
@@ -27,11 +22,6 @@ RUN apt-get update -y && apt-get install -y -qq \
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-configure zip --with-libzip
 RUN docker-php-ext-install -j$(nproc) iconv gd bcmath zip
-
-ENV MYSQL_HOST ${DB_HOST}
-ENV MYSQL_NAME ${DB_NAME}
-ENV MYSQL_USER ${DB_USER}
-ENV MYSQL_PASS ${DB_PASS}
 
 COPY . /var/www/html
 
