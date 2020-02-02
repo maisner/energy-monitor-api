@@ -6,7 +6,7 @@ namespace App\Model;
 
 use Nette\Database\Table\ActiveRow;
 
-class AverageData {
+class AverageData extends Entity {
 
 	/** @var float */
 	public $day_consumption;

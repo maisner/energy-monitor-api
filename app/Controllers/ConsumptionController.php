@@ -11,6 +11,7 @@ use Apitte\Core\Annotation\Controller\Tag;
 use Apitte\Core\Http\ApiRequest;
 use Apitte\Core\Http\ApiResponse;
 use App\Model\DataFacade;
+use App\Model\Exception\EntityNotFoundException;
 
 /**
  * @Path("/consumption")
@@ -52,13 +53,14 @@ class ConsumptionController extends BaseV1Controller {
 	 * @param ApiRequest  $request
 	 * @param ApiResponse $response
 	 * @return ApiResponse
+	 * @throws EntityNotFoundException
 	 */
 	public function getAverageData(ApiRequest $request, ApiResponse $response): ApiResponse {
 		$commodity = $request->getParameter('commodity');
 
 
 		return $response->withEntity(
-			$this->buildCollectionData($this->dataFacade->getAverageData($commodity))
+			$this->buildData($this->dataFacade->getAverageData($commodity))
 		);
 	}
 }

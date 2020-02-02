@@ -4,6 +4,7 @@
 namespace App\Model;
 
 
+use App\Model\Exception\EntityNotFoundException;
 use Nette\Database\Context;
 
 class DataFacade {
@@ -56,24 +57,23 @@ class DataFacade {
 
 	/**
 	 * @param string $commodity
-	 * @return array|AverageData[]
+	 * @return AverageData
+	 * @throws EntityNotFoundException
 	 */
-	public function getAverageData(string $commodity): array {
-		$rows = $this->database->table('consumption')
+	public function getAverageData(string $commodity): AverageData {
+		$row = $this->database->table('consumption')
 			->select('AVG(`average_day_consumption`) AS `day_consumption`')
 			->select('AVG(`average_day_consumption`) * 30.43 AS `month_consumption`')
 			->select('AVG(`average_day_consumption`) * 365.25 AS `year_consumption`')
 			->where('meter_state.commodity', $commodity)
 			->where('meter_state.is_deleted', FALSE)
-			->fetchAll();
+			->fetch();
 
-		$data = [];
-
-		foreach ($rows as $row) {
-			$data[] = AverageData::fromRow($row);
+		if ($row === NULL) {
+			throw new EntityNotFoundException();
 		}
 
-		return $data;
+		return AverageData::fromRow($row);
 	}
 
 }
