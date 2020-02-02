@@ -41,4 +41,24 @@ class ConsumptionController extends BaseV1Controller {
 			$this->buildCollectionData($this->dataFacade->getData($commodity))
 		);
 	}
+
+	/**
+	 * @Path("/average")
+	 * @Method("GET")
+	 * @RequestParameters({
+	 *     @RequestParameter(name="commodity", type="string", description="Filter by commodity (electric/gas)",
+	 *                                         in="query", required=true)
+	 * })
+	 * @param ApiRequest  $request
+	 * @param ApiResponse $response
+	 * @return ApiResponse
+	 */
+	public function getAverageData(ApiRequest $request, ApiResponse $response): ApiResponse {
+		$commodity = $request->getParameter('commodity');
+
+
+		return $response->withEntity(
+			$this->buildCollectionData($this->dataFacade->getAverageData($commodity))
+		);
+	}
 }

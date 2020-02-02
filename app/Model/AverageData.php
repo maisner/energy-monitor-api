@@ -6,13 +6,7 @@ namespace App\Model;
 
 use Nette\Database\Table\ActiveRow;
 
-class Data {
-
-	/** @var int */
-	public $month;
-
-	/** @var int */
-	public $year;
+class AverageData {
 
 	/** @var float */
 	public $day_consumption;
@@ -20,12 +14,14 @@ class Data {
 	/** @var float */
 	public $month_consumption;
 
-	public static function fromRow(ActiveRow $row): Data {
+	/** @var float */
+	public $year_consumption;
+
+	public static function fromRow(ActiveRow $row): AverageData {
 		$data = new self();
-		$data->month = (int)$row->offsetGet('month');
-		$data->year = (int)$row->offsetGet('year');
 		$data->day_consumption = (float)$row->offsetGet('day_consumption');
 		$data->month_consumption = (float)$row->offsetGet('month_consumption');
+		$data->year_consumption = (float)$row->offsetGet('year_consumption');
 
 		return $data;
 	}

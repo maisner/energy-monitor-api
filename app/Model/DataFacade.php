@@ -38,6 +38,7 @@ class DataFacade {
 				"(AVG(`average_day_consumption`) * DAY(LAST_DAY(CONCAT(`year`, '-', `month`, '-01')))) AS `month_consumption`"
 			)
 			->where('meter_state.commodity', $commodity)
+			->where('meter_state.is_deleted', FALSE)
 			//			->where('year', 2019)
 			//			->where('month >=', 9)
 			->group('month, year')
@@ -48,6 +49,28 @@ class DataFacade {
 
 		foreach ($rows as $row) {
 			$data[] = Data::fromRow($row);
+		}
+
+		return $data;
+	}
+
+	/**
+	 * @param string $commodity
+	 * @return array|AverageData[]
+	 */
+	public function getAverageData(string $commodity): array {
+		$rows = $this->database->table('consumption')
+			->select('AVG(`average_day_consumption`) AS `day_consumption`')
+			->select('AVG(`average_day_consumption`) * 30.43 AS `month_consumption`')
+			->select('AVG(`average_day_consumption`) * 365.25 AS `year_consumption`')
+			->where('meter_state.commodity', $commodity)
+			->where('meter_state.is_deleted', FALSE)
+			->fetchAll();
+
+		$data = [];
+
+		foreach ($rows as $row) {
+			$data[] = AverageData::fromRow($row);
 		}
 
 		return $data;
